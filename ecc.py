@@ -7,22 +7,31 @@ testString = 'Hello world! My name is Anshuman and this code is written in Pytho
 # Step 1
 
 
-byteString  =''.join(format(x, 'b') for x in bytearray(testString))
+byteString = ''
+for y in bytearray(testString):
+    sub_str = format(y, 'b')
+    if len(sub_str)<8:
+        for x in xrange(len(sub_str),8):
+            sub_str = '0' + sub_str
+    byteString = byteString + sub_str
+
 dataSize = len(byteString)
 decrypted_totalstring = ''
 #N = 256
 N = 224
-packet = []
+
 
 
 while True:
     dataBuffer = ''
+    packet = []
     if dataSize > N: #This chosen value signifies the number of clouds we will divide the data on. If data is short of this value we will fill it with dummy values like spaces. -Anshuman
         dataBuffer = byteString[N:]
         byteString = byteString[:N]
 
     print dataSize
     print len(byteString),'\n'
+
 
     for x in range(7):
         packet.append(byteString[(x*32):((32*(x+1)))])
@@ -98,7 +107,7 @@ while True:
     print len(decrypted_bytestring)
 
     #for l in range(len(decrypted_bytestring)/7):
-    print chr(int(decrypted_bytestring[1:7],2))
+    print chr(int(decrypted_bytestring[0:8],2))
     
     #print decrypted_textstring
     
