@@ -103,9 +103,13 @@ if __name__ == '__main__':
     '''
     Detect if the script is being run directly by the user
     '''
+    random_primes = [17,23,19,59,61]
     print "RSA Encrypter/ Decrypter"
-    p = int(raw_input("Enter a prime number (17, 19, 23, etc): "))
-    q = int(raw_input("Enter another prime number (Not one you entered above): "))
+    #p = int(raw_input("Enter a prime number (17, 19, 23, etc): "))
+    #q = int(raw_input("Enter another prime number (Not one you entered above): "))
+    p = random.choice(random_primes)
+    random_primes.remove(p)
+    q = random.choice(random_primes)
     print "Generating your public/private keypairs now . . ."
     public, private = generate_keypair(p, q)
     print "Your public key is ", public ," and your private key is ", private

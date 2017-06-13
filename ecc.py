@@ -4,7 +4,7 @@ import string
 
 #testString = 'Hello world! My name is Anshuman and this code is written in Python.'
 
-testString = raw_input()
+testString = raw_input('Enter message to encrypt: ')
 
 # Step 1
 
