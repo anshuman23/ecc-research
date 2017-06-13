@@ -12,4 +12,4 @@
 * We have also provided an RSA script for comparison which works much like ```ecc.py``` as shown above. To run, just type ```python rsa.py``` 
 
 ### Contact
-To ask questions regarding the code, email : ```anshuman.c@yahoo.com```
+To ask questions regarding the code, email : ```anshuman.c@yahoo.com``` or ```shivamarr96@gmail.com```
