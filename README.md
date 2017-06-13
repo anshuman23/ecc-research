@@ -1,4 +1,4 @@
-# An Elliptic Curve Cryptography based Encryption Scheme for securing the Cloud against Eavesdropping Attacks
+# _An Elliptic Curve Cryptography based Encryption Scheme for securing the Cloud against Eavesdropping Attacks_
 ###### The code from this repository follows from the [paper](https://github.com/anshuman23/), authored by _[Anshuman Chhabra](https://github.com/anshuman23)_ and _[Shivam Arora](https://github.com/shivamarr96)_ with the above title published in  ___.
 
 ## Dependencies
