@@ -2,7 +2,9 @@ import seccure
 import random
 import string
 
-testString = 'Hello world! My name is Anshuman and this code is written in Python.'
+#testString = 'Hello world! My name is Anshuman and this code is written in Python.'
+
+testString = raw_input()
 
 # Step 1
 
@@ -11,19 +13,28 @@ testString = 'Hello world! My name is Anshuman and this code is written in Pytho
 #a = b.decode('utf-8')
 #print a
 
-byteString  =''.join(format(x, 'b') for x in bytearray(testString))
+#byteString  =''.join(format(x, 'b') for x in bytearray(testString))
+byteString = ''
+decryptedTextString = ''
+for x in bytearray(testString):
+    substr = format(x,'b')
+    if len(substr) < 7:
+        substr = '0' + substr
+    byteString += substr
+    
 dataSize = len(byteString)
-dataBuffer = ''
+#dataBuffer = ''
 #N = 256
 N = 224
-packet = []
+
+while 1:
+    dataBuffer = ''
+    packet = []
+    if dataSize > N: #This chosen value signifies the number of clouds we will divide the data on. If data is short of this value we will fill it with dummy values like spaces. -Anshuman
+        dataBuffer = byteString[N:]
+        byteString = byteString[:N]
 
 
-if dataSize > N: #This chosen value signifies the number of clouds we will divide the data on. If data is short of this value we will fill it with dummy values like spaces. -Anshuman
-    dataBuffer = byteString[N:]
-    byteString = byteString[:N]
-
-while True:
     
     
     print dataSize
@@ -93,8 +104,7 @@ while True:
     #Combine packets and store in the list cyphertext in the order that they appeared
 
     decrypted_bytestring = ''
-    decrypted_textstring = ''
-    
+
     for k in range(7):
         decrypted.append(seccure.decrypt(ciphertext[k], private_key))
         print decrypted[k]
@@ -103,12 +113,15 @@ while True:
     print decrypted_bytestring == byteString
     print len(decrypted_bytestring)
 
-    #for l in range(len(decrypted_bytestring)/7):
-    print chr(int(decrypted_bytestring[1:14],2))
+    strdec = ''
+    for l in range(len(decrypted_bytestring)/7):
+        strdec += chr(int(decrypted_bytestring[l*7:(l+1)*7],2))
     
-    #print decrypted_textstring
+    print strdec
+    decryptedTextString += strdec
     
-    break
-    #if not dataBuffer:
-     #   break
-    
+    byteString = dataBuffer
+    if len(dataBuffer) == 0:
+        break
+
+print "\nFinal Decrypted String: {}".format(decryptedTextString)
