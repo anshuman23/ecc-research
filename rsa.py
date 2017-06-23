@@ -4,7 +4,7 @@ RSA Encryption
 '''
 
 import random
-
+import time
 
 '''
 Euclid's algorithm for determining the greatest common divisor
@@ -103,16 +103,26 @@ if __name__ == '__main__':
     '''
     Detect if the script is being run directly by the user
     '''
+    random_primes = [17,23,19,59,61]
     print "RSA Encrypter/ Decrypter"
-    p = int(raw_input("Enter a prime number (17, 19, 23, etc): "))
-    q = int(raw_input("Enter another prime number (Not one you entered above): "))
+    #p = int(raw_input("Enter a prime number (17, 19, 23, etc): "))
+    #q = int(raw_input("Enter another prime number (Not one you entered above): "))
+    p = random.choice(random_primes)
+    random_primes.remove(p)
+    q = random.choice(random_primes)
     print "Generating your public/private keypairs now . . ."
     public, private = generate_keypair(p, q)
     print "Your public key is ", public ," and your private key is ", private
     message = raw_input("Enter a message to encrypt with your private key: ")
+    t1 = time.time()
     encrypted_msg = encrypt(private, message)
+    t2 = time.time()
+    print 'Encryption Time =',t2-t1
     print "Your encrypted message is: "
     print ''.join(map(lambda x: str(x), encrypted_msg))
     print "Decrypting message with public key ", public ," . . ."
+    t1 = time.time()
     print "Your message is:"
     print decrypt(public, encrypted_msg)
+    t2 = time.time()
+    print 'Decryption Time =',t2-t1
