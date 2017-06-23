@@ -1,37 +1,46 @@
 import seccure
 import random
 import string
+import time
+#testString = 'Hello world! My name is Anshuman and this code is written in Python.'
 
-testString = 'Hello world! My name is Anshuman and this code is written in Python.'
+testString = raw_input('Enter message to encrypt: ')
 
 # Step 1
 
+# Converting string to byte array
+#b = bytearray(testString)
+#a = b.decode('utf-8')
+#print a
+
+#byteString  =''.join(format(x, 'b') for x in bytearray(testString))
 
 byteString = ''
-for y in bytearray(testString):
-    sub_str = format(y, 'b')
-    if len(sub_str)<8:
-        for x in xrange(len(sub_str),8):
-            sub_str = '0' + sub_str
-    byteString = byteString + sub_str
-
+decryptedTextString = ''
+for x in bytearray(testString):
+    substr = format(x,'b')
+    if len(substr) < 7:
+        substr = '0' + substr
+    byteString += substr
+    
 dataSize = len(byteString)
-decrypted_totalstring = ''
+#dataBuffer = ''
 #N = 256
 N = 224
-
-
-
-while True:
+enc_times_data = []
+dec_times_data = []
+tot_times_data = []
+while 1:
     dataBuffer = ''
+    t1 = time.time()
+    tot1 = t1
     packet = []
     if dataSize > N: #This chosen value signifies the number of clouds we will divide the data on. If data is short of this value we will fill it with dummy values like spaces. -Anshuman
         dataBuffer = byteString[N:]
         byteString = byteString[:N]
 
     print dataSize
-    print len(byteString),'\n'
-
+    print len(byteString)
 
     for x in range(7):
         packet.append(byteString[(x*32):((32*(x+1)))])
@@ -58,6 +67,9 @@ while True:
     for z in range(7):
         ciphertext.append(seccure.encrypt(packet[z][:-3], public_key))
         print ciphertext[z]
+
+        if packet[z][-3:] == '000':
+            print 'SEND packet[z][:-3] TO CLOUD 1'
 
         if packet[z][-3:] == '001':
             print 'SEND packet[z][:-3] TO CLOUD 2'
@@ -92,28 +104,45 @@ while True:
     #RECEIVE packet data from CLOUD 7
     #RECEIVE packet data from CLOUD 8
     #Combine packets and store in the list cyphertext in the order that they appeared
-
+    t2 = time.time()
+    print 'Encryption Time for the iteration',t2-t1
+    enc_times_data.append(t2-t1)
+    t1 = time.time()
     decrypted_bytestring = ''
-    decrypted_textstring = ''
-    
+
     for k in range(7):
         decrypted.append(seccure.decrypt(ciphertext[k], private_key))
         print decrypted[k]
         decrypted_bytestring += decrypted[k]
 
-    decrypted_totalstring += decrypted_bytestring 
-
     print decrypted_bytestring == byteString
     print len(decrypted_bytestring)
 
-    #for l in range(len(decrypted_bytestring)/7):
-    print chr(int(decrypted_bytestring[0:8],2))
+    strdec = ''
+    for l in range(len(decrypted_bytestring)/7):
+        strdec += chr(int(decrypted_bytestring[l*7:(l+1)*7],2))
     
-    #print decrypted_textstring
+    print strdec
+    decryptedTextString += strdec
+
+    t2 = time.time()
+    tot2 = t2
+    print 'Decryption Time for the iteration',t2-t1
+    dec_times_data.append(t2-t1)
+    print 'Total Time for the iteration',tot2-tot1
+    tot_times_data.append(tot2-tot1)
     
     byteString = dataBuffer
-    dataSize = len(dataBuffer)
-    
-    if dataSize == 0:
+    if len(dataBuffer) == 0:
         break
     
+
+print enc_times_data
+
+print dec_times_data
+
+print tot_times_data
+print 'Encryption Time = ',sum(enc_times_data)
+print 'Decryption Time = ',sum(dec_times_data)
+print 'Total Time(Encryption + Decryption) = ',sum(tot_times_data)
+print "\nFinal Decrypted String: {}".format(decryptedTextString)
