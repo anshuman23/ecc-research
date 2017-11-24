@@ -1,5 +1,4 @@
 # _An Elliptic Curve Cryptography based Encryption Scheme for securing the Cloud against Eavesdropping Attacks_
-Code for the paper of the same name accepted at IEEE CIC 2017
 
 ## Dependencies
 - [x] **seccure** : run ```pip install seccure``` before running code from this repo.
